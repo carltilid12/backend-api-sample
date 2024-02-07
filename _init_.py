@@ -79,9 +79,10 @@ def get_students():
 def create_student():
     data = request.get_json()
     student = data.get('student')
+    course_id = data.get('course_id')
     try:
-        if student:
-            res = spcall('insert_student', (student,), commit=True)
+        if student and course_id:
+            res = spcall('insert_student', (student, course_id,), commit=True)
             return jsonify({
                 "status": "success",
                 "message": student
