@@ -60,7 +60,37 @@ def create_course():
             "status": "error",
             "message": str(e)
         })
+    
+# Get student Function
+@app.route("/students", methods=['GET'])
+def get_students():
+    try:
+        students = spcall('get_students', param=None)
+        return jsonify({
+            "status": "success",
+            "data": students})
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "message": str(e)})
 
+# Create student Function
+@app.route('/student', methods=['POST'])
+def create_student():
+    data = request.get_json()
+    student = data.get('student')
+    try:
+        if student:
+            res = spcall('insert_student', (student,), commit=True)
+            return jsonify({
+                "status": "success",
+                "message": student
+            })
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "message": str(e)
+        })
     
 if __name__ == '__main__':
     app.run(debug=True)
